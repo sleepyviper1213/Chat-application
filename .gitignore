@@ -30,3 +30,49 @@
 *.exe
 *.out
 *.app
+
+# MacOS
+.DS_Store
+*.dSYM
+
+# Build folders
+build*
+*Debug
+Release
+
+# CMake cache
+.cache
+compile_commands.json
+
+# include-what-you-use generated files and folders
+iwyu.out
+build-iwyu
+iwyu
+
+# logs folder
+logs
+
+# Docs generated from Doxygen
+docs
+
+# Qt generated file
+CMakeLists.txt.user
+
+# images output
+images
+
+# binary executable folders
+bin
+
+# CTest temporaries
+Testing
+
+# CMake-Conan preset config
+CMakeUserPresets.json
+conan_provider.cmake
+
+# CLion cache
+.idea
+
+# Jupyter
+.ipynb_checkpoints/
