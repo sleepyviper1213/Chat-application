@@ -76,3 +76,8 @@ conan_provider.cmake
 
 # Jupyter
 .ipynb_checkpoints/
+
+# SSL certificates
+*.crt
+*.key
+*.pem

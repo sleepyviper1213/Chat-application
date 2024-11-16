@@ -1,4 +1,4 @@
-build/
+*build*
 QtDebug/
 .DS_Store
 .idea/
