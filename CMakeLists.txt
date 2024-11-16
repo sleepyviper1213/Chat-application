@@ -18,7 +18,10 @@ endif()
 
 include(FetchContent)
 
-find_package(Boost 1.83.0 CONFIG QUIET)
+find_package (CLI11)
+find_package (Boost 1.83.0 COMPONENTS system CONFIG QUIET)
+find_package(OpenSSL REQUIRED)
+
 if(NOT Boost_FOUND)
     message(STATUS "Fetching Boost Asio from git repo.")
 
@@ -51,6 +54,9 @@ FetchContent_Declare(
     FIND_PACKAGE_ARGS NAMES catch2)
 FetchContent_MakeAvailable(Catch2)
 
+# CMakeLists.txt
+find_package(nlohmann_json 3.2.0 REQUIRED)
+
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -62,4 +68,3 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 
 add_subdirectory(src)
-add_subdirectory(app)
