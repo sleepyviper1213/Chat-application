@@ -54,7 +54,7 @@ BraceWrapping:
 BreakAfterAttributes: Leave
 BreakAfterJavaFieldAnnotations: false
 BreakArrays: false
-BreakBeforeBinaryOperators: All
+BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach
 BreakBeforeConceptDeclarations: true
 # BreakBeforeInlineASMColon: OnlyMultiLine
@@ -84,10 +84,12 @@ IfMacros:
   - KJ_IF_MAYBE
 IncludeBlocks:   Regroup
 IncludeCategories:
+  - Regex:           '^<sys/.*>$'  # Unix system headers
+    Priority:        4
   - Regex:           '^"[^"]+/"'
-    Priority:        2
-  - Regex:           '^<[^>]+/[^>]+>$'
     Priority:        3
+  - Regex:           '^<[^>]+/[^>]+>$'
+    Priority:        2
   - Regex:           '^".*"' 
     Priority:        1
 IncludeIsMainRegex: '(Test)?$'
