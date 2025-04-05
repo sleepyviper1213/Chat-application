@@ -33,30 +33,12 @@ if(NOT Boost_FOUND)
     FetchContent_MakeAvailable(Boost_asio)
 endif()
 
-FetchContent_Declare(
-    spdlog
-    GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG v1.12.0
-    FIND_PACKAGE_ARGS)
-FetchContent_MakeAvailable(spdlog)
-
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG v1.14.0
-    FIND_PACKAGE_ARGS NAMES GTest)
-FetchContent_MakeAvailable(googletest)
-
-FetchContent_Declare(
-    Catch2
-    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG v3.4.0 # or a later release
-    FIND_PACKAGE_ARGS NAMES catch2)
-FetchContent_MakeAvailable(Catch2)
-
-# CMakeLists.txt
 find_package(nlohmann_json 3.2.0 REQUIRED)
-
+find_package(GTest 1.12.1 REQUIRED)
+find_package(Catch2 REQUIRED)
+find_package(spdlog REQUIRED)
+find_package(Qt6 6.7 REQUIRED COMPONENTS QuickControls2 Sql)
+qt_standard_project_setup(REQUIRES 6.7)
 
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
