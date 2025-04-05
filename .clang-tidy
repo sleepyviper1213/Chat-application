@@ -12,19 +12,6 @@ Checks: >
   modernize-*,
   -modernize-use-trailing-return-type
 
-WarningsAsErrors: ''
-HeaderFileExtensions:
-  - ''
-  - h
-  - hh
-  - hpp
-  - hxx
-ImplementationFileExtensions:
-  - c
-  - cc
-  - cpp
-  - cxx
-HeaderFilterRegex: ''
 CheckOptions:
   readability-identifier-naming.ClassCase: 'CamelCase'
   readability-identifier-naming.GlobalConstantCase: 'UPPER_CASE'

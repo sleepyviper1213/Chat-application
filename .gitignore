@@ -36,15 +36,10 @@
 *.dSYM
 
 # Build folders
-build
+*build*
 
 # CMake cache
 .cache
-
-# include-what-you-use generated files and folders
-iwyu.out
-build-iwyu
-iwyu
 
 # logs folder
 logs
@@ -54,9 +49,6 @@ docs
 
 # Qt generated file
 CMakeLists.txt.user
-
-# images output
-images
 
 # binary executable folders
 bin
