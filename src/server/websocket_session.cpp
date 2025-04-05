@@ -1,5 +1,7 @@
 #include "websocket_session.hpp"
 
+#include "utility.hpp"
+
 #include <boost/beast/core.hpp>
 #include <boost/beast/ssl.hpp>
 #include <nlohmann/json.hpp>
@@ -56,8 +58,7 @@ asio::awaitable<void> websocket_session::websocket_handshake() noexcept {
 	const auto [err] = co_await ws_.async_accept(nothrow_awaitable_t{});
 	if (err) co_return spdlog::error("Unable to accept request");
 
-	if (bool x = room_.join(this); !x)
-		co_return spdlog::error("[Room] Participant joined");
+	if (!room_.join(this)) co_return spdlog::error("[Room] Participant joined");
 	co_await room_.load_history(shared_from_this());
 	co_await listen_for_incoming_message();
 }
@@ -92,7 +93,10 @@ websocket_session::listen_for_incoming_message() noexcept {
 
 asio::awaitable<void> websocket_session::load_history_chat(
 	std::span<const std::string> history) noexcept {
-	assert(ws_.is_open());
+	if (!ws_.is_open()) {
+		spdlog::error("Connection is terminated before");
+		co_return;
+	}
 
 	for (const auto &old_msg : history) co_await send(old_msg);
 	spdlog::info("[Session] History chat loaded");

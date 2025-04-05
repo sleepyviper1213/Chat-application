@@ -22,7 +22,7 @@ public:
 	 * \brief Construct the server listening to port \a port_num one the local
 	 * host using IPv4 address
 	 */
-	explicit Server(asio::io_context &io, asio::ip::port_type port_num);
+	Server(asio::io_context &io, asio::ip::port_type port_num);
 
 	/**
 	 * \brief Accept the connection request asynchronously. Once accepted, try

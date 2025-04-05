@@ -36,13 +36,10 @@
 *.dSYM
 
 # Build folders
-build*
-*Debug
-Release
+build
 
 # CMake cache
 .cache
-compile_commands.json
 
 # include-what-you-use generated files and folders
 iwyu.out

@@ -57,6 +57,7 @@ FetchContent_MakeAvailable(Catch2)
 # CMakeLists.txt
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
+
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)

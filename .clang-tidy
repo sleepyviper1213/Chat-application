@@ -1,5 +1,17 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,-*, bugprone-*, cert-*, clang-diagnostic-*, clang-analyzer-*, cppcoreguidelines-*, llvm-*, modernize-*, -modernize-use-trailing-return-type'
+Checks: >
+  -*,
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  bugprone-*,
+  cert-*,
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  llvm-*,
+  modernize-*,
+  -modernize-use-trailing-return-type
+
 WarningsAsErrors: ''
 HeaderFileExtensions:
   - ''
@@ -13,7 +25,6 @@ ImplementationFileExtensions:
   - cpp
   - cxx
 HeaderFilterRegex: ''
-AnalyzeTemporaryDtors: false
 CheckOptions:
   readability-identifier-naming.ClassCase: 'CamelCase'
   readability-identifier-naming.GlobalConstantCase: 'UPPER_CASE'
