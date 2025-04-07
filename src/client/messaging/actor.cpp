@@ -28,5 +28,3 @@ void Actor::setEmail(const QString &newEmail) {
 	m_email = newEmail;
 	emit emailChanged();
 }
-
-bool Actor::isSentByMe() const { return m_firstName == "Me"; }

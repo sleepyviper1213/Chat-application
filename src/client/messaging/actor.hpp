@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QQmlEngine>
-#include <QtCore>
+#include <QtCore/QString>
+#include <QtQml/QQmlEngine>
 
 class Actor : public QObject {
 	Q_OBJECT
@@ -12,7 +12,6 @@ class Actor : public QObject {
 				   lastNameChanged FINAL)
 	Q_PROPERTY(
 		QString email READ email WRITE setEmail NOTIFY emailChanged FINAL)
-	Q_PROPERTY(bool isSentByMe READ isSentByMe CONSTANT FINAL)
 public:
 	Actor(QObject *parent = nullptr);
 
@@ -26,13 +25,11 @@ public:
 
 	[[nodiscard]] QString email() const;
 	void setEmail(const QString &newEmail);
-	[[nodiscard]] bool isSentByMe() const;
 
 signals:
 	void firstNameChanged();
 	void lastNameChanged();
 	void emailChanged();
-
 
 private:
 	QString m_firstName;

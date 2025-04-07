@@ -1,35 +1,42 @@
 #pragma once
 
-#include "../../../Qt/6.7.2/macos/lib/QtCore.framework/Headers/QtCore"
+
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QVariant>
 
 #include <compare>
 
 // TODO: File, image, something.
-class MessageBody {
+class MessageBody : public QObject {
+	Q_OBJECT
 public:
 	static MessageBody fromString(QString text);
 
-	[[nodiscard]] const QString &getText() const;
-	void setText(const QString &newName);
+	[[nodiscard]] QString text() const;
+	void setText(const QString &newText);
 
-	QString toQString() const { return text; }
+	// QString toQString() const;
 
-	operator QString() const { return text; }
+	// operator QString() const;
 
-	operator QVariant() const { return QVariant(text); }
+	// operator QVariant() const;
 
-	friend QDataStream &operator<<(QDataStream &out,
-								   const MessageBody &message);
+	// friend QDataStream &operator<<(QDataStream &out,
+	// 							   const MessageBody &message);
 
-	friend QDataStream &operator>>(QDataStream &in, MessageBody &message);
+	// friend QDataStream &operator>>(QDataStream &in, MessageBody &message);
 
-	auto operator<=>(const MessageBody &other) const;
+	// auto operator<=>(const MessageBody &other) const;
 
-protected:
-	explicit MessageBody(QString text);
+	MessageBody(QString text, QObject *parent = nullptr);
+
+signals:
+	void textChanged();
 
 private:
-	QString text;
+	QString m_text;
+	Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged FINAL)
 };
 
 Q_DECLARE_METATYPE(MessageBody)

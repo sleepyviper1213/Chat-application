@@ -15,7 +15,6 @@ ApplicationWindow {
 
 		anchors.fill: parent
 
-		initialItem: ContactPage {
-		}
+		initialItem: ContactPage {}
 	}
 }

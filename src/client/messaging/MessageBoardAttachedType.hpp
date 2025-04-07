@@ -1,10 +1,9 @@
 #pragma once
-#include <QQmlEngine>
-#include <QtCore>
+#include <QtQml/QQmlEngine>
 
 class MessageBoardAttachedType : public QObject {
 	Q_OBJECT
-	Q_PROPERTY(bool expired READ isExpired WRITE setExpired NOTIFY
+	Q_PROPERTY(bool isExpired READ isExpired WRITE setExpired NOTIFY
 				   expiredChanged FINAL)
 	QML_ANONYMOUS
 public:
@@ -18,5 +17,5 @@ signals:
 	void expiredChanged();
 
 private:
-	bool expired;
+	bool m_isExpired;
 };

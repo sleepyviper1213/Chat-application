@@ -1,11 +1,15 @@
 #include "sqlconversationmodel.hpp"
 
-#include "../messaging/MessageBoard.hpp"
+#include "messagebody.hpp"
+#include "messaging/MessageBoard.hpp"
+
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlRecord>
+
 #include <QDateTime>
 #include <QDebug>
-#include <QSqlError>
-#include <QtCore>
-#include <QtSql>
 
 static const char *const conversationsTableName = "Conversations";
 
@@ -67,17 +71,16 @@ void SqlConversationModel::setRecipient(Actor *recipient) {
 QVariant SqlConversationModel::data(const QModelIndex &index, int role) const {
 	if (!index.isValid()) return QVariant();
 
-	if (role == Qt::DisplayRole || role == Qt::UserRole) {
-		const auto sqlRecord = QSqlTableModel::record(index.row());
-		ChatMessage *message = new ChatMessage(nullptr);
+	if (role == Qt::UserRole + 1) {
+		const QSqlRecord record = this->record(index.row());
+		auto *message           = new ChatMessage(nullptr);
+		message->setRecipient(m_recipient);
+		message->setBody(
+			new MessageBody(record.value("message").toString(), message));
+		message->setSentAt(record.value("timestamp").toDateTime());
 		message->setAuthor(
-			new Actor(sqlRecord.value("author").toString(), message));
-		message->setRecipient(
-			new Actor(sqlRecord.value("recipient").toString(), message));
-		message->setSentAt(
-			QDateTime::fromString(sqlRecord.value("timestamp").toString(),
-								  Qt::ISODate));
-		message->setBody(sqlRecord.value("message").toString());
+			new Actor(record.value("author").toString(), message));
+
 		return QVariant::fromValue(message);
 	}
 	return QSqlTableModel::data(index, role); // Fallback for other roles
@@ -85,7 +88,7 @@ QVariant SqlConversationModel::data(const QModelIndex &index, int role) const {
 
 QHash<int, QByteArray> SqlConversationModel::roleNames() const {
 	QHash<int, QByteArray> names;
-	names[Qt::UserRole] = "message"; // Expose as 'message' in QML
+	names[Qt::UserRole + 1] = "message"; // Expose as 'message' in QML
 	return names;
 }
 
@@ -94,16 +97,16 @@ void SqlConversationModel::sendMessageBody(const QString &body) {
 	chat.setAuthor(new Actor("Me", &chat));
 	chat.setRecipient(m_recipient);
 	chat.setSentAt(QDateTime::currentDateTime());
-	chat.setBody(body);
+	chat.setBody(new MessageBody(body, &chat));
 	sendMessage(chat);
 }
 
 void SqlConversationModel::sendMessage(const ChatMessage &chat) {
 	QSqlRecord newRecord = QSqlTableModel::record();
-	newRecord.setValue("author", chat.getAuthor()->firstName());
-	newRecord.setValue("recipient", chat.getRecipient()->firstName());
-	newRecord.setValue("timestamp", chat.getSentAt().toString(Qt::ISODate));
-	newRecord.setValue("message", chat.getBody());
+	newRecord.setValue("author", chat.author()->firstName());
+	newRecord.setValue("recipient", chat.recipient()->firstName());
+	newRecord.setValue("timestamp", chat.sentAt().toString(Qt::ISODate));
+	newRecord.setValue("message", chat.body()->text());
 	if (!QSqlTableModel::insertRecord(QSqlTableModel::rowCount(), newRecord)) {
 		qWarning() << "Failed to send message:" << lastError().text();
 		return;

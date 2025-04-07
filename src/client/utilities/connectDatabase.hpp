@@ -1,8 +1,9 @@
 #pragma once
 
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QtQml>
+#include <QtCore/QDir>
+#include <QtCore/QStandardPaths>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
 
 void connectToDatabase() {
 	QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");

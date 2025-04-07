@@ -1,4 +1,5 @@
-<RCC>
+<!DOCTYPE RCC>
+<RCC version="1.0">
     <qresource prefix="/">
         <file>Albert_Einstein.png</file>
         <file>Albert_Einstein@2x.png</file>

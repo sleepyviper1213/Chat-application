@@ -1,9 +1,9 @@
 #include "chatmessage.hpp"
 
 ChatMessage::ChatMessage(QObject *parent)
-        : QObject(parent),
-          author(new Actor(parent)),
-          recipient(new Actor(parent)) {}
+	: QObject(parent),
+	  m_author(new Actor(this)),
+	  m_recipient(new Actor(this)) {}
 
 //QObject *ChatMessage::board() const { return m_board.value(); }
 //
@@ -11,36 +11,42 @@ ChatMessage::ChatMessage(QObject *parent)
 //	return QBindable<QObject *>(&m_board);
 //}
 
-Actor *ChatMessage::getAuthor() const { return author.data(); }
+Actor *ChatMessage::author() const { return m_author.data(); }
 
 void ChatMessage::setAuthor(Actor *newAuthor) {
-    if (author == newAuthor)
-        return;
-    author = newAuthor;
-    emit authorChanged();
+	if (m_author == newAuthor) return;
+	m_author = newAuthor;
+	emit authorChanged();
 }
 
-Actor *ChatMessage::getRecipient() const { return recipient.data(); }
+Actor *ChatMessage::recipient() const { return m_recipient.data(); }
 
 void ChatMessage::setRecipient(Actor *newRecipient) {
-    if (recipient == newRecipient)
-        return;
-    recipient = newRecipient;
-    emit recipientChanged();
+	if (m_recipient == newRecipient) return;
+	m_recipient = newRecipient;
+	emit recipientChanged();
 }
 
-QDateTime ChatMessage::getSentAt() const { return sentAt; }
+QDateTime ChatMessage::sentAt() const { return m_sentAt; }
 
 void ChatMessage::setSentAt(const QDateTime &newSentAt) {
-    if (sentAt == newSentAt) return;
-    sentAt = newSentAt;
-    emit sentAtChanged();
+	if (m_sentAt == newSentAt) return;
+	m_sentAt = newSentAt;
+	emit sentAtChanged();
 }
 
-QString ChatMessage::getBody() const { return body; }
+MessageBody *ChatMessage::body() const { return m_body; }
 
-void ChatMessage::setBody(const QString &newBody) {
-    if (body == newBody) return;
-    body = newBody;
-    emit bodyChanged();
+void ChatMessage::setBody(MessageBody *newBody) {
+	if (m_body == newBody) return;
+	m_body = newBody;
+	emit bodyChanged();
+}
+
+bool ChatMessage::isSentByMe() const {
+	if (!m_author) {
+		qFatal() << "Pointer to Author is NULL";
+		return false;
+	}
+	return m_author->firstName() == "Me";
 }

@@ -1,61 +1,61 @@
 #pragma once
 
 #include "actor.hpp"
+#include "messagebody.hpp"
 
-#include <QQmlEngine>
-#include <QtCore>
+#include <QtCore/QDateTime>
+#include <QtQml/QQmlEngine>
 
 class ChatMessage : public QObject {
-Q_OBJECT
+	Q_OBJECT
 
-//	Q_PROPERTY(QObject *board READ board BINDABLE boardBindable)
-    Q_PROPERTY(Actor *author READ getAuthor WRITE setAuthor NOTIFY authorChanged
-                       FINAL REQUIRED)
-    Q_PROPERTY(Actor *recipient READ getRecipient WRITE setRecipient NOTIFY
-                       recipientChanged FINAL REQUIRED)
-    Q_PROPERTY(QDateTime sentAt READ getSentAt WRITE setSentAt NOTIFY
-                       sentAtChanged FINAL REQUIRED)
-    Q_PROPERTY(QString body READ getBody WRITE setBody NOTIFY bodyChanged FINAL
-                       REQUIRED)
+	//	Q_PROPERTY(QObject *board READ board BINDABLE boardBindable)
+	Q_PROPERTY(Actor *author READ author WRITE setAuthor NOTIFY authorChanged
+				   FINAL REQUIRED)
+	Q_PROPERTY(Actor *recipient READ recipient WRITE setRecipient NOTIFY
+				   recipientChanged FINAL REQUIRED)
+	Q_PROPERTY(QDateTime sentAt READ sentAt WRITE setSentAt NOTIFY sentAtChanged
+				   FINAL REQUIRED)
+	Q_PROPERTY(MessageBody *body READ body WRITE setBody NOTIFY bodyChanged
+				   FINAL REQUIRED)
+	// infered attr
+	Q_PROPERTY(bool isSentByMe READ isSentByMe CONSTANT FINAL)
 
-    QML_ELEMENT
-
+	QML_ELEMENT
 public:
-    explicit ChatMessage(QObject *parent = nullptr);
+	explicit ChatMessage(QObject *parent = nullptr);
 
-//	QObject *board() const;
-//	QBindable<QObject *> boardBindable();
+	//	QObject *board() const;
+	//	QBindable<QObject *> boardBindable();
 
-    [[nodiscard]] Actor *getAuthor() const;
+	[[nodiscard]] Actor *author() const;
+	void setAuthor(Actor *newAuthor);
 
-    void setAuthor(Actor *newAuthor);
+	[[nodiscard]] Actor *recipient() const;
+	void setRecipient(Actor *newRecipient);
 
-    [[nodiscard]] Actor *getRecipient() const;
+	[[nodiscard]] QDateTime sentAt() const;
+	void setSentAt(const QDateTime &newSentAt);
 
-    void setRecipient(Actor *newRecipient);
+	[[nodiscard]] MessageBody *body() const;
+	void setBody(MessageBody *newBody);
 
-    [[nodiscard]] QDateTime getSentAt() const;
-
-    void setSentAt(const QDateTime &newSentAt);
-
-    [[nodiscard]] QString getBody() const;
-
-    void setBody(const QString &newBody);
+	[[nodiscard]]
+	bool isSentByMe() const;
 
 signals:
+	void authorChanged();
 
-    void authorChanged();
+	void recipientChanged();
 
-    void recipientChanged();
+	void sentAtChanged();
 
-    void sentAtChanged();
-
-    void bodyChanged();
+	void bodyChanged();
 
 private:
-    QProperty<QObject *> m_board;
-    QPointer<Actor> author;
-    QPointer<Actor> recipient;
-    QDateTime sentAt;
-    QString body;
+	// QProperty<QObject *> m_board;
+	QPointer<Actor> m_author;
+	QPointer<Actor> m_recipient;
+	QDateTime m_sentAt;
+	MessageBody *m_body;
 };

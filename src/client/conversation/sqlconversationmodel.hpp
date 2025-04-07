@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../messaging/actor.hpp"
-#include "../messaging/chatmessage.hpp"
+#include "messaging/actor.hpp"
+#include "messaging/chatmessage.hpp"
 
-#include <QQmlEngine>
-#include <QSqlTableModel>
+#include <QtQml/QQmlEngine>
+#include <QtSql/QSqlTableModel>
 
 class SqlConversationModel : public QSqlTableModel {
 	Q_OBJECT
